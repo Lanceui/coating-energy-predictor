@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设备基础能耗数据</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: rgb(0, 45, 40);
+            --primary-green-light: rgb(0, 65, 60);
+            --accent-gold: rgb(206, 164, 114);
+            --accent-amber: rgb(186, 144, 94);
+            --bg-dark: rgb(15, 15, 18);
+            --bg-card: rgb(25, 30, 35);
+            --text-primary: rgb(245, 248, 250);
+            --text-secondary: rgb(160, 174, 192);
+            --text-tertiary: rgb(100, 116, 139);
+            --border-color: rgba(0, 65, 60, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, rgb(10, 20, 25) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 1.5rem;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-light) 100%);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 45, 40, 0.4);
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .workshop-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: var(--accent-gold);
+            color: var(--primary-green);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .actions {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--accent-gold);
+            border-radius: 6px;
+            color: var(--accent-gold);
+            background: rgba(206, 164, 114, 0.2);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: var(--accent-gold);
+            color: var(--primary-green);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-amber) 100%);
+            color: var(--primary-green);
+            border: none;
+        }
+
+        .process-section {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .process-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .process-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+        }
+
+        .equipment-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .equipment-table thead {
+            background: rgba(0, 45, 40, 0.3);
+        }
+
+        .equipment-table th {
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.75rem;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .equipment-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.85rem;
+        }
+
+        .equipment-table tbody tr:hover {
+            background: rgba(206, 164, 114, 0.05);
+        }
+
+        .equipment-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .editable-input {
+            width: 80px;
+            padding: 0.4rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-primary);
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .editable-input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .unit {
+            color: var(--text-tertiary);
+            font-size: 0.7rem;
+            margin-left: 0.25rem;
+        }
+
+        .note-section {
+            margin-top: 2rem;
+            padding: 1.25rem;
+            background: rgba(206, 164, 114, 0.1);
+            border-left: 4px solid var(--accent-gold);
+            border-radius: 8px;
+        }
+
+        .note-title {
+            font-weight: 600;
+            color: var(--accent-gold);
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .note-content {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            line-height: 1.6;
+        }
+
+        .note-content ul {
+            margin-top: 0.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .note-content li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>设备基础能耗数据</h1>
+            <span class="workshop-badge" id="workshop-badge">一车间</span>
+            <div class="actions">
+                <a href="coating-energy-predictor.html" class="btn">← 返回预测系统</a>
+                <button class="btn btn-primary" onclick="saveData()">💾 保存数据</button>
+            </div>
+        </header>
+
+        <div id="data-container">
+            <!-- Dynamically generated -->
+        </div>
+
+        <div class="note-section">
+            <div class="note-title">📝 说明</div>
+            <div class="note-content">
+                <ul>
+                    <li><strong>数据可编辑:</strong> 点击能耗数值可直接修改,修改后点击"保存数据"按钮保存到浏览器本地存储</li>
+                    <li><strong>数据单位:</strong> 所有能耗数据均为每小时单车的基础消耗量</li>
+                    <li><strong>升温时间:</strong> 设备开机升温到工作温度所需的时间</li>
+                    <li><strong>降温时间:</strong> 烘房等设备降温时风机运行时间(约40分钟),期间消耗电能</li>
+                    <li><strong>实际应用:</strong> 最终能耗 = 基础生产能耗 + 升温能耗 + 降温能耗</li>
+                    <li><strong>恢复默认:</strong> 如需恢复默认数据,请清除浏览器缓存后重新加载</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="workshop-data.js"></script>
+    <script>
+        let currentWorkshop = 1;
+        let workshopData = null;
+
+        // 从URL获取车间参数
+        const urlParams = new URLSearchParams(window.location.search);
+        const workshopParam = urlParams.get('workshop');
+        if (workshopParam) {
+            currentWorkshop = parseInt(workshopParam);
+        }
+
+        // 加载数据
+        function loadData() {
+            // 尝试从localStorage加载
+            const savedData = localStorage.getItem(`workshop${currentWorkshop}_data`);
+            if (savedData) {
+                workshopData = JSON.parse(savedData);
+            } else {
+                // 使用默认数据
+                workshopData = currentWorkshop === 1 ?
+                    JSON.parse(JSON.stringify(WORKSHOP1_DATA)) :
+                    JSON.parse(JSON.stringify(WORKSHOP2_DATA));
+            }
+
+            document.getElementById('workshop-badge').textContent =
+                currentWorkshop === 1 ? '一车间' : '二车间';
+
+            renderData();
+        }
+
+        // 渲染数据
+        function renderData() {
+            const container = document.getElementById('data-container');
+            container.innerHTML = '';
+
+            Object.entries(workshopData).forEach(([sectionKey, section]) => {
+                const processSection = document.createElement('div');
+                processSection.className = 'process-section';
+
+                const header = document.createElement('div');
+                header.className = 'process-header';
+                header.innerHTML = `
+                    <span style="font-size: 1.5rem;">${section.icon}</span>
+                    <div class="process-title">${section.name}</div>
+                `;
+
+                const table = document.createElement('table');
+                table.className = 'equipment-table';
+                table.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th>设备名称</th>
+                            <th>升温时间</th>
+                            <th>降温时间</th>
+                            <th>工业水 (吨/h/台)</th>
+                            <th>天然气 (m³/h/台)</th>
+                            <th>电能 (kWh/h/台)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${section.equipment.map(eq => `
+                            <tr>
+                                <td class="equipment-name">${eq.name}</td>
+                                <td>
+                                    <input type="number" class="editable-input"
+                                        value="${eq.heatingTime}"
+                                        data-equipment="${eq.id}"
+                                        data-field="heatingTime"
+                                        min="0" step="1">
+                                    <span class="unit">分钟</span>
+                                </td>
+                                <td>
+                                    <input type="number" class="editable-input"
+                                        value="${eq.coolingTime || 0}"
+                                        data-equipment="${eq.id}"
+                                        data-field="coolingTime"
+                                        min="0" step="1">
+                                    <span class="unit">分钟</span>
+                                </td>
+                                <td>
+                                    <input type="number" class="editable-input"
+                                        value="${eq.water}"
+                                        data-equipment="${eq.id}"
+                                        data-field="water"
+                                        min="0" step="0.01">
+                                </td>
+                                <td>
+                                    <input type="number" class="editable-input"
+                                        value="${eq.gas}"
+                                        data-equipment="${eq.id}"
+                                        data-field="gas"
+                                        min="0" step="0.01">
+                                </td>
+                                <td>
+                                    <input type="number" class="editable-input"
+                                        value="${eq.electricity}"
+                                        data-equipment="${eq.id}"
+                                        data-field="electricity"
+                                        min="0" step="1">
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                `;
+
+                processSection.appendChild(header);
+                processSection.appendChild(table);
+                container.appendChild(processSection);
+            });
+
+            // 添加输入监听器
+            document.querySelectorAll('.editable-input').forEach(input => {
+                input.addEventListener('change', (e) => {
+                    updateEquipmentData(
+                        e.target.dataset.equipment,
+                        e.target.dataset.field,
+                        parseFloat(e.target.value)
+                    );
+                });
+            });
+        }
+
+        // 更新设备数据
+        function updateEquipmentData(equipmentId, field, value) {
+            for (const section of Object.values(workshopData)) {
+                const equipment = section.equipment.find(eq => eq.id === equipmentId);
+                if (equipment) {
+                    equipment[field] = value;
+                    break;
+                }
+            }
+        }
+
+        // 保存数据
+        function saveData() {
+            localStorage.setItem(`workshop${currentWorkshop}_data`, JSON.stringify(workshopData));
+
+            // 更新原始数据文件(通过导出)
+            if (currentWorkshop === 1) {
+                WORKSHOP1_DATA = JSON.parse(JSON.stringify(workshopData));
+            } else {
+                WORKSHOP2_DATA = JSON.parse(JSON.stringify(workshopData));
+            }
+
+            alert('数据已保存!');
+        }
+
+        // 页面加载时初始化
+        window.addEventListener('load', loadData);
+    </script>
+</body>
+</html>

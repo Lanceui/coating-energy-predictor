@@ -1,0 +1,17 @@
+# 涂装车间能耗预测系统部署文件
+部署说明.md
+快速部署指南.txt
+
+# 项目管理相关
+项目管理/
+
+# Windows 系统文件
+Thumbs.db
+Desktop.ini
+
+# 临时文件
+*.tmp
+*.log
+
+# Claude Code相关
+.claude/
