@@ -181,26 +181,24 @@
             font-size: 0.75rem;
             color: var(--text-secondary);
             line-height: 1.6;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
         .usage-instructions strong {
             color: var(--accent-gold);
-            writing-mode: horizontal-tb;
+            white-space: nowrap;
         }
 
         .usage-steps {
             display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            margin-top: 0.5rem;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
         .usage-step {
-            writing-mode: vertical-rl;
-            text-orientation: upright;
-            letter-spacing: 0.1em;
-            font-size: 0.7rem;
-            padding: 0.5rem 0;
+            font-size: 0.75rem;
         }
 
         /* Process Flow Diagram */
@@ -865,10 +863,18 @@
                 label.textContent = section.name;
                 flowSection.appendChild(label);
 
-                const equipmentRow = document.createElement('div');
+                // 创建第一行
+                let equipmentRow = document.createElement('div');
                 equipmentRow.className = 'flow-equipment-row';
 
                 section.equipment.forEach(eq => {
+                    // 如果设备有 lineBreak 标记，创建新行
+                    if (eq.lineBreak) {
+                        flowSection.appendChild(equipmentRow);
+                        equipmentRow = document.createElement('div');
+                        equipmentRow.className = 'flow-equipment-row';
+                    }
+
                     const flowEq = document.createElement('div');
                     flowEq.className = `flow-equipment flow-${sectionKey}`;
                     flowEq.textContent = eq.name;
@@ -877,6 +883,7 @@
                     equipmentRow.appendChild(flowEq);
                 });
 
+                // 添加最后一行
                 flowSection.appendChild(equipmentRow);
                 container.appendChild(flowSection);
             });
