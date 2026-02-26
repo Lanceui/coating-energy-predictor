@@ -185,18 +185,22 @@
 
         .usage-instructions strong {
             color: var(--accent-gold);
+            writing-mode: horizontal-tb;
         }
 
         .usage-steps {
             display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
             margin-top: 0.5rem;
         }
 
         .usage-step {
-            flex: 1;
-            min-width: 200px;
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            letter-spacing: 0.1em;
+            font-size: 0.7rem;
+            padding: 0.5rem 0;
         }
 
         /* Process Flow Diagram */
@@ -925,8 +929,27 @@
                 equipmentGrid.className = 'equipment-grid';
 
                 section.equipment.forEach(eq => {
+                    // 如果设备有 lineBreak 标记，插入换行
+                    if (eq.lineBreak) {
+                        const lineBreak = document.createElement('div');
+                        lineBreak.style.width = '100%';
+                        lineBreak.style.height = '0';
+                        equipmentGrid.appendChild(lineBreak);
+                    }
+
                     const equipmentItem = document.createElement('div');
                     equipmentItem.className = 'equipment-item';
+
+                    // 构建升温降温信息（同一行显示）
+                    let timeInfo = '';
+                    if (eq.heatingTime > 0 && eq.coolingTime > 0) {
+                        timeInfo = `<div class="equipment-info">升温: ${eq.heatingTime > 0 ? Math.floor(eq.heatingTime / 60) + 'h' + (eq.heatingTime % 60) + 'min' : '无'} | 降温: ${eq.coolingTime}min</div>`;
+                    } else if (eq.heatingTime > 0) {
+                        timeInfo = `<div class="equipment-info">升温: ${eq.heatingTime > 0 ? Math.floor(eq.heatingTime / 60) + 'h' + (eq.heatingTime % 60) + 'min' : '无'}</div>`;
+                    } else if (eq.coolingTime > 0) {
+                        timeInfo = `<div class="equipment-info">降温: ${eq.coolingTime}min</div>`;
+                    }
+
                     equipmentItem.innerHTML = `
                         <input type="checkbox" id="${eq.id}" class="equipment-checkbox"
                             data-heating-time="${eq.heatingTime}"
@@ -936,8 +959,7 @@
                         <label for="${eq.id}" class="equipment-label">
                             <div class="checkmark"></div>
                             <div class="equipment-name">${eq.name}</div>
-                            <div class="equipment-info">升温: ${eq.heatingTime > 0 ? Math.floor(eq.heatingTime / 60) + 'h' + (eq.heatingTime % 60) + 'min' : '无'}</div>
-                            ${eq.coolingTime ? `<div class="equipment-info">降温: ${eq.coolingTime}min</div>` : ''}
+                            ${timeInfo}
                             <div class="equipment-time-input">
                                 <div class="equipment-time-label">生产时间</div>
                                 <div class="time-input-wrapper">

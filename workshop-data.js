@@ -17,7 +17,7 @@ const WORKSHOP1_DATA = {
         equipment: [
             { id: 'w1-ecoat', name: '电泳', heatingTime: 60, coolingTime: 0, water: 0.3, gas: 0.2, electricity: 15 },
             { id: 'w1-ecoat-oven-line1', name: '电泳烘房一线', heatingTime: 90, coolingTime: 40, water: 0.1, gas: 1.2, electricity: 80 },
-            { id: 'w1-ecoat-oven-line2', name: '电泳烘房二线', heatingTime: 90, coolingTime: 40, water: 0.1, gas: 1.2, electricity: 80 },
+            { id: 'w1-ecoat-oven-line2', name: '电泳烘房二线', heatingTime: 90, coolingTime: 40, water: 0.1, gas: 1.2, electricity: 80, lineBreak: true },
             { id: 'w1-ecoat-cooling', name: '电泳强冷', heatingTime: 0, coolingTime: 0, water: 0.2, gas: 0, electricity: 25 },
             { id: 'w1-ecoat-sanding', name: '电泳打磨', heatingTime: 0, coolingTime: 0, water: 0.05, gas: 0, electricity: 5 }
         ]
@@ -28,7 +28,7 @@ const WORKSHOP1_DATA = {
         equipment: [
             { id: 'w1-sealer-line1', name: '密封胶一线', heatingTime: 30, coolingTime: 0, water: 0.1, gas: 0.1, electricity: 12 },
             { id: 'w1-sealer-oven-line1', name: '密封胶烘房一线', heatingTime: 60, coolingTime: 40, water: 0.05, gas: 0.8, electricity: 50 },
-            { id: 'w1-sealer-line2', name: '密封胶二线', heatingTime: 30, coolingTime: 0, water: 0.1, gas: 0.1, electricity: 12 },
+            { id: 'w1-sealer-line2', name: '密封胶二线', heatingTime: 30, coolingTime: 0, water: 0.1, gas: 0.1, electricity: 12, lineBreak: true },
             { id: 'w1-sealer-oven-line2', name: '密封胶烘房二线', heatingTime: 60, coolingTime: 40, water: 0.05, gas: 0.8, electricity: 50 },
             { id: 'w1-sealer-cooling', name: '密封胶强冷', heatingTime: 0, coolingTime: 0, water: 0.15, gas: 0, electricity: 20 }
         ]
@@ -43,7 +43,7 @@ const WORKSHOP1_DATA = {
             { id: 'w1-clearcoat-spray-line1', name: '清漆喷涂一线', heatingTime: 40, coolingTime: 0, water: 0.3, gas: 0.15, electricity: 35 },
             { id: 'w1-topcoat-oven-line1', name: '面漆烘房一线', heatingTime: 60, coolingTime: 40, water: 0.1, gas: 1.0, electricity: 60 },
             { id: 'w1-topcoat-cooling-line1', name: '面漆强冷一线', heatingTime: 0, coolingTime: 0, water: 0.2, gas: 0, electricity: 30 },
-            { id: 'w1-topcoat-clean-line2', name: '擦净/吹扫二线', heatingTime: 30, coolingTime: 0, water: 0.2, gas: 0.05, electricity: 8 },
+            { id: 'w1-topcoat-clean-line2', name: '擦净/吹扫二线', heatingTime: 30, coolingTime: 0, water: 0.2, gas: 0.05, electricity: 8, lineBreak: true },
             { id: 'w1-basecoat-spray-line2', name: '色漆喷涂二线', heatingTime: 40, coolingTime: 0, water: 0.3, gas: 0.15, electricity: 35 },
             { id: 'w1-flash-off-line2', name: '热闪干二线', heatingTime: 45, coolingTime: 0, water: 0.05, gas: 0.3, electricity: 25 },
             { id: 'w1-clearcoat-spray-line2', name: '清漆喷涂二线', heatingTime: 40, coolingTime: 0, water: 0.3, gas: 0.15, electricity: 35 },
