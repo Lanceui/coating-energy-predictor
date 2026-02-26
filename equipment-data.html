@@ -207,6 +207,119 @@
         .note-content li {
             margin-bottom: 0.5rem;
         }
+
+        /* Password Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border: 2px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .modal-input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            text-align: center;
+            letter-spacing: 0.2em;
+        }
+
+        .modal-input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn-cancel {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+        }
+
+        .modal-btn-cancel:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-btn-confirm {
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-amber) 100%);
+            color: var(--primary-green);
+        }
+
+        .modal-btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(206, 164, 114, 0.4);
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            text-align: center;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -234,7 +347,24 @@
                     <li><strong>降温时间:</strong> 烘房等设备降温时风机运行时间(约40分钟),期间消耗电能</li>
                     <li><strong>实际应用:</strong> 最终能耗 = 基础生产能耗 + 升温能耗 + 降温能耗</li>
                     <li><strong>恢复默认:</strong> 如需恢复默认数据,请清除浏览器缓存后重新加载</li>
+                    <li><strong>密码保护:</strong> 保存数据需要管理员密码验证,确保数据安全</li>
                 </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div class="modal-overlay" id="passwordModal">
+        <div class="modal-content">
+            <div class="modal-title">🔒 密码验证</div>
+            <div class="modal-input-group">
+                <label class="modal-label">请输入管理员密码</label>
+                <input type="password" id="passwordInput" class="modal-input" placeholder="••••••">
+                <div class="error-message" id="errorMessage">密码错误，请重试</div>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-cancel" onclick="closePasswordModal()">取消</button>
+                <button class="modal-btn modal-btn-confirm" onclick="confirmPassword()">确认</button>
             </div>
         </div>
     </div>
@@ -243,6 +373,9 @@
     <script>
         let currentWorkshop = 1;
         let workshopData = null;
+
+        // 管理员密码 (可以修改为你想要的密码)
+        const ADMIN_PASSWORD = '123456';
 
         // 从URL获取车间参数
         const urlParams = new URLSearchParams(window.location.search);
@@ -375,17 +508,60 @@
 
         // 保存数据
         function saveData() {
-            localStorage.setItem(`workshop${currentWorkshop}_data`, JSON.stringify(workshopData));
-
-            // 更新原始数据文件(通过导出)
-            if (currentWorkshop === 1) {
-                WORKSHOP1_DATA = JSON.parse(JSON.stringify(workshopData));
-            } else {
-                WORKSHOP2_DATA = JSON.parse(JSON.stringify(workshopData));
-            }
-
-            alert('数据已保存!');
+            // 显示密码输入框
+            openPasswordModal();
         }
+
+        // 打开密码模态框
+        function openPasswordModal() {
+            document.getElementById('passwordModal').classList.add('active');
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('errorMessage').classList.remove('show');
+            // 聚焦到密码输入框
+            setTimeout(() => {
+                document.getElementById('passwordInput').focus();
+            }, 100);
+        }
+
+        // 关闭密码模态框
+        function closePasswordModal() {
+            document.getElementById('passwordModal').classList.remove('active');
+        }
+
+        // 确认密码
+        function confirmPassword() {
+            const inputPassword = document.getElementById('passwordInput').value;
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (inputPassword === ADMIN_PASSWORD) {
+                // 密码正确，保存数据
+                localStorage.setItem(`workshop${currentWorkshop}_data`, JSON.stringify(workshopData));
+
+                // 更新原始数据文件(通过导出)
+                if (currentWorkshop === 1) {
+                    WORKSHOP1_DATA = JSON.parse(JSON.stringify(workshopData));
+                } else {
+                    WORKSHOP2_DATA = JSON.parse(JSON.stringify(workshopData));
+                }
+
+                closePasswordModal();
+                alert('✅ 数据已保存成功!');
+            } else {
+                // 密码错误
+                errorMessage.classList.add('show');
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
+        }
+
+        // 支持回车键确认
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('passwordInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    confirmPassword();
+                }
+            });
+        });
 
         // 页面加载时初始化
         window.addEventListener('load', loadData);

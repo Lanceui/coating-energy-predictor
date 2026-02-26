@@ -171,6 +171,34 @@
             color: var(--primary-green);
         }
 
+        /* Usage Instructions */
+        .usage-instructions {
+            background: var(--bg-card);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .usage-instructions strong {
+            color: var(--accent-gold);
+        }
+
+        .usage-steps {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .usage-step {
+            flex: 1;
+            min-width: 200px;
+        }
+
         /* Process Flow Diagram */
         .flow-diagram {
             background: var(--bg-card);
@@ -355,7 +383,7 @@
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s ease;
-            min-height: 90px;
+            min-height: 100px;
         }
 
         .equipment-checkbox:checked + .equipment-label {
@@ -372,7 +400,8 @@
         .equipment-info {
             font-size: 0.65rem;
             color: var(--text-secondary);
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.2rem;
+            line-height: 1.2;
         }
 
         .equipment-checkbox:checked + .equipment-label .equipment-info {
@@ -632,6 +661,17 @@
                 <button class="header-btn" onclick="changeWorkshop()">🔄 切换车间</button>
             </div>
         </header>
+
+        <!-- Usage Instructions -->
+        <div class="usage-instructions">
+            <strong>📖 使用说明：</strong>
+            <div class="usage-steps">
+                <div class="usage-step">① 在流程图或列表中选择需要的生产设备</div>
+                <div class="usage-step">② 设置每个设备的生产时间（不包含升温降温）</div>
+                <div class="usage-step">③ 输入环境温度、日产量、能源单价</div>
+                <div class="usage-step">④ 点击"计算能耗预测"查看结果</div>
+            </div>
+        </div>
 
         <!-- Process Flow Diagram -->
         <div class="flow-diagram">
