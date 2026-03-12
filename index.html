@@ -256,6 +256,22 @@
             justify-content: center;
         }
 
+        /* 前处理工段设备较窄 */
+        .flow-pretreatment.flow-equipment {
+            padding: 0.6rem 0.6rem;
+            font-size: 0.7rem;
+        }
+
+        /* 电泳工段设备较宽 */
+        .flow-ecoat.flow-equipment {
+            padding: 0.6rem 1.2rem;
+        }
+
+        /* 单线设备（不含"一线"或"二线"）居中显示 */
+        .flow-equipment.single-line-equipment {
+            align-self: center;
+        }
+
         .flow-equipment:hover {
             transform: translateY(-2px);
             border-color: var(--accent-gold);
@@ -883,6 +899,10 @@
 
                     const flowEq = document.createElement('div');
                     flowEq.className = `flow-equipment flow-${sectionKey}`;
+                    // 单线设备居中对齐
+                    if (!eq.name.includes('一线') && !eq.name.includes('二线')) {
+                        flowEq.classList.add('single-line-equipment');
+                    }
                     flowEq.textContent = eq.name;
                     flowEq.dataset.equipmentId = eq.id;
                     flowEq.onclick = () => toggleFlowEquipment(eq.id);
