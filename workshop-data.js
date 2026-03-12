@@ -16,21 +16,24 @@ const WORKSHOP1_DATA = {
         icon: '⚡',
         equipment: [
             { id: 'w1-ecoat', name: '电泳', heatingTime: 60, coolingTime: 0, water: 0.3, gas: 0.2, electricity: 15 },
-            { id: 'w1-ecoat-oven-line1', name: '电泳烘房一线', heatingTime: 90, coolingTime: 40, water: 0.1, gas: 1.2, electricity: 80 },
+            { id: 'w1-ecoat-sanding', name: '电泳打磨', heatingTime: 0, coolingTime: 0, water: 0.05, gas: 0, electricity: 5 },
+            { id: 'w1-ecoat-oven-line1', name: '电泳烘房一线', heatingTime: 90, coolingTime: 40, water: 0.1, gas: 1.2, electricity: 80, lineBreak: true },
+            { id: 'w1-ecoat-cooling-line1', name: '电泳强冷一线', heatingTime: 0, coolingTime: 0, water: 0.2, gas: 0, electricity: 25 },
             { id: 'w1-ecoat-oven-line2', name: '电泳烘房二线', heatingTime: 90, coolingTime: 40, water: 0.1, gas: 1.2, electricity: 80, lineBreak: true },
-            { id: 'w1-ecoat-cooling', name: '电泳强冷', heatingTime: 0, coolingTime: 0, water: 0.2, gas: 0, electricity: 25 },
-            { id: 'w1-ecoat-sanding', name: '电泳打磨', heatingTime: 0, coolingTime: 0, water: 0.05, gas: 0, electricity: 5 }
+            { id: 'w1-ecoat-cooling-line2', name: '电泳强冷二线', heatingTime: 0, coolingTime: 0, water: 0.2, gas: 0, electricity: 25 }
         ]
     },
     sealer: {
         name: '密封胶工段',
         icon: '🔧',
         equipment: [
+            { id: 'w1-primer', name: '底涂', heatingTime: 30, coolingTime: 0, water: 0.1, gas: 0.1, electricity: 10 },
             { id: 'w1-sealer-line1', name: '密封胶一线', heatingTime: 30, coolingTime: 0, water: 0.1, gas: 0.1, electricity: 12 },
             { id: 'w1-sealer-oven-line1', name: '密封胶烘房一线', heatingTime: 60, coolingTime: 40, water: 0.05, gas: 0.8, electricity: 50 },
+            { id: 'w1-sealer-cooling-line1', name: '密封胶强冷一线', heatingTime: 0, coolingTime: 0, water: 0.15, gas: 0, electricity: 20 },
             { id: 'w1-sealer-line2', name: '密封胶二线', heatingTime: 30, coolingTime: 0, water: 0.1, gas: 0.1, electricity: 12, lineBreak: true },
             { id: 'w1-sealer-oven-line2', name: '密封胶烘房二线', heatingTime: 60, coolingTime: 40, water: 0.05, gas: 0.8, electricity: 50 },
-            { id: 'w1-sealer-cooling', name: '密封胶强冷', heatingTime: 0, coolingTime: 0, water: 0.15, gas: 0, electricity: 20 }
+            { id: 'w1-sealer-cooling-line2', name: '密封胶强冷二线', heatingTime: 0, coolingTime: 0, water: 0.15, gas: 0, electricity: 20 }
         ]
     },
     topcoat: {

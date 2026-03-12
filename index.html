@@ -375,6 +375,19 @@
             display: none;
         }
 
+        .equipment-item {
+            /* 默认占1列 */
+        }
+
+        .equipment-item.single-line {
+            /* 单独设备占2列 */
+            grid-column: span 2;
+        }
+
+        .equipment-item.single-line .equipment-label {
+            min-width: auto;
+        }
+
         .equipment-label {
             display: flex;
             flex-direction: column;
@@ -944,7 +957,9 @@
                     }
 
                     const equipmentItem = document.createElement('div');
-                    equipmentItem.className = 'equipment-item';
+                    // 判断是否是单独设备（不包含"一线"或"二线"）
+                    const isSingleLine = !eq.name.includes('一线') && !eq.name.includes('二线');
+                    equipmentItem.className = isSingleLine ? 'equipment-item single-line' : 'equipment-item';
 
                     // 构建升温降温信息（同一行显示）
                     let timeInfo = '';
