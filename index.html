@@ -236,6 +236,7 @@
         .flow-equipment-row {
             display: flex;
             gap: 0.5rem;
+            align-items: flex-start;
         }
 
         .flow-equipment {
@@ -247,6 +248,9 @@
             border: 2px solid transparent;
             transition: all 0.3s ease;
             cursor: pointer;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
         }
 
         .flow-equipment:hover {
@@ -373,19 +377,6 @@
 
         .equipment-checkbox {
             display: none;
-        }
-
-        .equipment-item {
-            /* 默认占1列 */
-        }
-
-        .equipment-item.single-line {
-            /* 单独设备占2列 */
-            grid-column: span 2;
-        }
-
-        .equipment-item.single-line .equipment-label {
-            min-width: auto;
         }
 
         .equipment-label {
@@ -957,9 +948,7 @@
                     }
 
                     const equipmentItem = document.createElement('div');
-                    // 判断是否是单独设备（不包含"一线"或"二线"）
-                    const isSingleLine = !eq.name.includes('一线') && !eq.name.includes('二线');
-                    equipmentItem.className = isSingleLine ? 'equipment-item single-line' : 'equipment-item';
+                    equipmentItem.className = 'equipment-item';
 
                     // 构建升温降温信息（同一行显示）
                     let timeInfo = '';
