@@ -16,7 +16,7 @@ const WORKSHOP1_DATA = {
         icon: '⚡',
         equipment: [
             { id: 'w1-ecoat', name: '电泳', heatingTime: 60, coolingTime: 0, water: 0.3, gas: 0.2, electricity: 15 },
-            { id: 'w1-ecoat-oven-line1', name: '电泳烘房一线', heatingTime: 90, coolingTime: 40, water: 0.1, gas: 1.2, electricity: 80, lineBreak: true },
+            { id: 'w1-ecoat-oven-line1', name: '电泳烘房一线', heatingTime: 90, coolingTime: 40, water: 0.1, gas: 1.2, electricity: 80 },
             { id: 'w1-ecoat-cooling-line1', name: '电泳强冷一线', heatingTime: 0, coolingTime: 0, water: 0.2, gas: 0, electricity: 25 },
             { id: 'w1-ecoat-oven-line2', name: '电泳烘房二线', heatingTime: 90, coolingTime: 40, water: 0.1, gas: 1.2, electricity: 80, lineBreak: true },
             { id: 'w1-ecoat-cooling-line2', name: '电泳强冷二线', heatingTime: 0, coolingTime: 0, water: 0.2, gas: 0, electricity: 25 },
